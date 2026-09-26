@@ -116,9 +116,10 @@ describe('Phase 3: 地图组件', () => {
   });
 
   describe('DeliveryPage', () => {
-    it('无订单时显示空态', () => {
+    it('无订单时显示地图', () => {
       render(<DeliveryPage />);
-      expect(screen.getByText('还没有订单')).toBeInTheDocument();
+      expect(screen.getByTestId('page-delivery')).toBeInTheDocument();
+      expect(screen.queryByText('还没有订单')).toBeNull();
     });
 
     it('有订单时显示地图', () => {

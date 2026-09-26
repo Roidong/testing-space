@@ -8,11 +8,7 @@ import { useApp } from '../store/store';
 import { getStop } from '../data/locations';
 import { pointAtDistance, headingAt } from '../lib/geo';
 
-interface Props {
-  onOpenWizard?: () => void;
-}
-
-export default function DeliveryPage({ onOpenWizard }: Props) {
+export default function DeliveryPage() {
   const allOrders = useApp((s) => s.orders);
   const orders = useMemo(
     () => allOrders.filter((o) => o.status !== 'delivered' && o.status !== 'cancelled'),
@@ -27,21 +23,6 @@ export default function DeliveryPage({ onOpenWizard }: Props) {
         <CampusMap width={800} height={600}>
           {null}
         </CampusMap>
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center' }}>
-          <h3 style={{ color: 'var(--text)', marginBottom: 8 }}>还没有订单</h3>
-          <p style={{ color: 'var(--text-dim)', marginBottom: 16 }}>点击右下角按钮发第一单</p>
-          <button className="btn-primary" data-testid="empty-send-btn" onClick={onOpenWizard}>
-            立即发件
-          </button>
-        </div>
-        <button
-          className="btn-primary"
-          data-testid="open-wizard-btn"
-          style={{ position: 'absolute', bottom: 80, right: 16, width: 48, height: 48, borderRadius: '50%', fontSize: 20 }}
-          onClick={onOpenWizard}
-        >
-          +
-        </button>
       </div>
     );
   }
@@ -78,15 +59,6 @@ export default function DeliveryPage({ onOpenWizard }: Props) {
       </CampusMap>
 
       <OrderDrawer orderId={selectedOrder.id} onClose={() => setSelectedOrderId(null)} />
-
-      <button
-        className="btn-primary"
-        data-testid="open-wizard-btn"
-        style={{ position: 'absolute', bottom: 220, right: 16, width: 48, height: 48, borderRadius: '50%', fontSize: 20 }}
-        onClick={onOpenWizard}
-      >
-        +
-      </button>
     </div>
   );
 }

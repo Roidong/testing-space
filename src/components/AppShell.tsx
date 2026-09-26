@@ -4,15 +4,18 @@ import SideNav from './SideNav';
 import HomePage from '../pages/HomePage';
 import DeliveryPage from '../pages/DeliveryPage';
 import ProfilePage from '../pages/ProfilePage';
+import WizardShell from './wizard/WizardShell';
 
 interface Props {
   tab: TabId;
+  wizardOpen: boolean;
   onTabChange: (t: TabId) => void;
   onOpenWizard: () => void;
+  onCloseWizard: () => void;
   onGoToDelivery: () => void;
 }
 
-export default function AppShell({ tab, onTabChange, onOpenWizard, onGoToDelivery }: Props) {
+export default function AppShell({ tab, wizardOpen, onTabChange, onOpenWizard, onCloseWizard, onGoToDelivery }: Props) {
   return (
     <div className="app-shell" data-testid="app-shell">
       <header className="app-header">
@@ -30,11 +33,17 @@ export default function AppShell({ tab, onTabChange, onOpenWizard, onGoToDeliver
       </div>
 
       <main className="app-shell__content">
-        {tab === 'home' && (
-          <HomePage onGoToDelivery={onGoToDelivery} onOpenWizard={onOpenWizard} />
+        {wizardOpen ? (
+          <WizardShell onClose={onCloseWizard} />
+        ) : (
+          <>
+            {tab === 'home' && (
+              <HomePage onGoToDelivery={onGoToDelivery} onOpenWizard={onOpenWizard} />
+            )}
+            {tab === 'delivery' && <DeliveryPage />}
+            {tab === 'profile' && <ProfilePage />}
+          </>
         )}
-        {tab === 'delivery' && <DeliveryPage onOpenWizard={onOpenWizard} />}
-        {tab === 'profile' && <ProfilePage />}
       </main>
 
       <div className="app-shell__mobile-nav">

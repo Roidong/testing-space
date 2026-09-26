@@ -123,11 +123,12 @@ describe('App integration', () => {
     expect(screen.getByTestId('wizard-page')).toBeTruthy();
   });
 
-  it('opens wizard from delivery page + button', () => {
+  it('delivery page does not have send button or empty state', () => {
     render(<App />);
     fireEvent.click(screen.getByTestId('tab-delivery'));
-    fireEvent.click(screen.getByTestId('open-wizard-btn'));
-    expect(screen.getByTestId('wizard-page')).toBeTruthy();
+    expect(screen.queryByTestId('open-wizard-btn')).toBeNull();
+    expect(screen.queryByTestId('empty-send-btn')).toBeNull();
+    expect(screen.queryByText('还没有订单')).toBeNull();
   });
 
   it('wizard renders as a page not an overlay', () => {
@@ -148,5 +149,19 @@ describe('App integration', () => {
     fireEvent.click(screen.getByTestId('wizard-back'));
     // Should return to delivery page
     expect(screen.getByTestId('page-delivery')).toBeTruthy();
+  });
+
+  it('wizard inputs are interactive when opened from home page', () => {
+    render(<App />);
+    fireEvent.click(screen.getByTestId('home-send-btn'));
+    const nameInput = screen.getByTestId('item-name') as HTMLInputElement;
+    fireEvent.change(nameInput, { target: { value: '测试物品' } });
+    expect(nameInput.value).toBe('测试物品');
+    fireEvent.click(screen.getByTestId('cat-food'));
+    fireEvent.click(screen.getByTestId('weight-inc'));
+    const remarkInput = screen.getByTestId('item-remark') as HTMLTextAreaElement;
+    fireEvent.change(remarkInput, { target: { value: '易碎' } });
+    expect(remarkInput.value).toBe('易碎');
+    expect(screen.getByTestId('wizard-next')).not.toBeDisabled();
   });
 });
