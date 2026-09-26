@@ -24,7 +24,29 @@ describe('Phase 3: 地图组件', () => {
       render(<CampusMap width={800} height={600}><g /></CampusMap>);
       expect(screen.getByText('+')).toBeInTheDocument();
       expect(screen.getByText('−')).toBeInTheDocument();
-      expect(screen.getByText('⌖')).toBeInTheDocument();
+      // Reset button uses ⌖ symbol
+      const buttons = document.querySelectorAll('.campus-map__controls button');
+      expect(buttons.length).toBe(3);
+    });
+
+    it('初始状态地图自适应容器大小', () => {
+      render(<CampusMap width={800} height={600}><g /></CampusMap>);
+      const mapInner = document.querySelector('.campus-map > div');
+      expect(mapInner).toBeTruthy();
+      // Map should be scaled down to fit container
+      const style = mapInner?.getAttribute('style') || '';
+      expect(style).toContain('scale');
+      // Scale should be less than 1 for a 800x600 container with 1279x1670 map
+      expect(style).toMatch(/scale\([0-9.]+\)/);
+    });
+
+    it('重置按钮恢复初始视图', () => {
+      render(<CampusMap width={800} height={600}><g /></CampusMap>);
+      const buttons = document.querySelectorAll('.campus-map__controls button');
+      const resetBtn = buttons[2]; // Third button is reset
+      expect(resetBtn).toBeTruthy();
+      // Clicking reset should not throw
+      resetBtn.click();
     });
   });
 

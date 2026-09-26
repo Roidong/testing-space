@@ -1,4 +1,7 @@
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+
+const MAP_WIDTH = 1279;
+const MAP_HEIGHT = 1670;
 
 interface Props {
   width: number;
@@ -7,7 +10,15 @@ interface Props {
 }
 
 export default function CampusMap({ width, height, children }: Props) {
-  const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
+  // Calculate initial transform to fit the entire map in the container
+  const initialTransform = useMemo(() => {
+    const scale = Math.min(width / MAP_WIDTH, height / MAP_HEIGHT);
+    const x = (width - MAP_WIDTH * scale) / 2;
+    const y = (height - MAP_HEIGHT * scale) / 2;
+    return { x, y, scale };
+  }, [width, height]);
+
+  const [transform, setTransform] = useState(initialTransform);
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -47,8 +58,8 @@ export default function CampusMap({ width, height, children }: Props) {
   }, []);
 
   const resetView = useCallback(() => {
-    setTransform({ x: 0, y: 0, scale: 1 });
-  }, []);
+    setTransform(initialTransform);
+  }, [initialTransform]);
 
   return (
     <div
@@ -65,19 +76,19 @@ export default function CampusMap({ width, height, children }: Props) {
           transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`,
           transformOrigin: '0 0',
           position: 'absolute',
-          width: 1279,
-          height: 1670,
+          width: MAP_WIDTH,
+          height: MAP_HEIGHT,
         }}
       >
         <img
           src="/assets/campus-map.jpg"
           alt="校园地图"
-          style={{ width: 1279, height: 1670, display: 'block' }}
+          style={{ width: MAP_WIDTH, height: MAP_HEIGHT, display: 'block' }}
           draggable={false}
         />
         <svg
-          width={1279}
-          height={1670}
+          width={MAP_WIDTH}
+          height={MAP_HEIGHT}
           style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}
         >
           {children}
