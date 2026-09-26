@@ -181,4 +181,25 @@ describe('HomePage', () => {
     fireEvent.click(screen.getByTestId('home-map-btn'));
     expect(onGoToDelivery).toHaveBeenCalled();
   });
+
+  it('renders send button with prominent styling', () => {
+    render(<HomePage />);
+    const sendBtn = screen.getByTestId('home-send-btn');
+    expect(sendBtn).toBeTruthy();
+    expect(sendBtn.className).toContain('btn-primary');
+    // Button should have border and shadow for visibility
+    expect(sendBtn.style.border).toBeTruthy();
+    expect(sendBtn.style.boxShadow).toBeTruthy();
+  });
+
+  it('renders activity section as distinct card with primary color', () => {
+    render(<HomePage />);
+    const activitySection = screen.getByText(/最近动态/);
+    expect(activitySection).toBeTruthy();
+    // The section title should use primary color for distinction
+    expect(activitySection.style.color).toBe('var(--primary)');
+    // Should be inside a card container
+    const card = activitySection.closest('.card');
+    expect(card).toBeTruthy();
+  });
 });

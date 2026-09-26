@@ -67,7 +67,18 @@ export default function HomePage({ onGoToDelivery, onOpenWizard }: Props) {
 
       {/* C: 进行中订单 */}
       <div>
-        <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 10, color: 'var(--text-dim)' }}>
+        <div
+          style={{
+            fontSize: 14,
+            fontWeight: 700,
+            marginBottom: 10,
+            color: 'var(--text)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+          }}
+        >
+          <span style={{ fontSize: 16 }}>🚚</span>
           进行中订单
         </div>
         {activeOrders.length === 0 ? (
@@ -102,12 +113,17 @@ export default function HomePage({ onGoToDelivery, onOpenWizard }: Props) {
       </div>
 
       {/* D: 快捷按钮 */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         <button
           className="btn-primary"
           data-testid="home-send-btn"
           onClick={onOpenWizard}
-          style={{ padding: '14px 0', fontSize: 14 }}
+          style={{
+            padding: '16px 0',
+            fontSize: 15,
+            border: '2px solid var(--primary)',
+            boxShadow: '0 0 16px rgba(34, 211, 238, 0.4)',
+          }}
         >
           立即发件
         </button>
@@ -115,20 +131,36 @@ export default function HomePage({ onGoToDelivery, onOpenWizard }: Props) {
           className="btn-ghost"
           data-testid="home-map-btn"
           onClick={onGoToDelivery}
-          style={{ padding: '14px 0', fontSize: 14 }}
+          style={{ padding: '16px 0', fontSize: 15 }}
         >
           全屏地图
         </button>
       </div>
 
       {/* E: 最近动态 */}
-      <div>
-        <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 10, color: 'var(--text-dim)' }}>
+      <div
+        className="card"
+        style={{
+          padding: 16,
+          background: 'linear-gradient(135deg, rgba(34,211,238,0.05) 0%, rgba(59,130,246,0.05) 100%)',
+          border: '1px solid rgba(34,211,238,0.2)',
+        }}
+      >
+        <div
+          style={{
+            fontSize: 14,
+            fontWeight: 700,
+            marginBottom: 12,
+            color: 'var(--primary)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+          }}
+        >
+          <span style={{ fontSize: 16 }}>📋</span>
           最近动态
         </div>
-        <div className="card" style={{ padding: '4px 14px' }}>
-          <ActivityFeed orders={orders} maxItems={5} />
-        </div>
+        <ActivityFeed orders={orders} maxItems={5} />
       </div>
     </div>
   );
