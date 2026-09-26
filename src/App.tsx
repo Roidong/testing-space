@@ -7,26 +7,26 @@ import { startEngine, stopEngine } from './engine/simulation';
 
 export default function App() {
   const [tab, setTab] = useState<TabId>('home');
-  const [wizardOpen, setWizardOpen] = useState(false);
 
   useEffect(() => {
     startEngine();
     return () => stopEngine();
   }, []);
 
+  const handleWizardClose = () => {
+    setTab('delivery');
+  };
+
   return (
     <>
       <AppShell
-        tab={tab}
+        tab={tab === 'wizard' ? 'delivery' : tab}
         onTabChange={setTab}
-        onOpenWizard={() => {
-          setTab('delivery');
-          setWizardOpen(true);
-        }}
+        onOpenWizard={() => setTab('wizard')}
         onGoToDelivery={() => setTab('delivery')}
       />
-      {wizardOpen && (
-        <WizardShell onClose={() => setWizardOpen(false)} />
+      {tab === 'wizard' && (
+        <WizardShell onClose={handleWizardClose} />
       )}
       <ToastHost />
     </>

@@ -120,13 +120,33 @@ describe('App integration', () => {
   it('opens wizard from home page send button', () => {
     render(<App />);
     fireEvent.click(screen.getByTestId('home-send-btn'));
-    expect(screen.getByTestId('wizard-overlay')).toBeTruthy();
+    expect(screen.getByTestId('wizard-page')).toBeTruthy();
   });
 
   it('opens wizard from delivery page + button', () => {
     render(<App />);
     fireEvent.click(screen.getByTestId('tab-delivery'));
     fireEvent.click(screen.getByTestId('open-wizard-btn'));
-    expect(screen.getByTestId('wizard-overlay')).toBeTruthy();
+    expect(screen.getByTestId('wizard-page')).toBeTruthy();
+  });
+
+  it('wizard renders as a page not an overlay', () => {
+    render(<App />);
+    fireEvent.click(screen.getByTestId('home-send-btn'));
+    const wizardPage = screen.getByTestId('wizard-page');
+    expect(wizardPage).toBeTruthy();
+    // Wizard should have page class, not overlay
+    expect(wizardPage.className).toContain('page--wizard');
+    expect(wizardPage.className).not.toContain('wizard-overlay');
+  });
+
+  it('closing wizard returns to delivery page', () => {
+    render(<App />);
+    fireEvent.click(screen.getByTestId('home-send-btn'));
+    expect(screen.getByTestId('wizard-page')).toBeTruthy();
+    // Click back button to close wizard
+    fireEvent.click(screen.getByTestId('wizard-back'));
+    // Should return to delivery page
+    expect(screen.getByTestId('page-delivery')).toBeTruthy();
   });
 });

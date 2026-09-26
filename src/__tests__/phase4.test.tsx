@@ -299,7 +299,7 @@ describe('PayAnimation', () => {
 describe('WizardShell', () => {
   it('renders step 1 (item) initially', () => {
     render(<WizardShell onClose={vi.fn()} />);
-    expect(screen.getByTestId('wizard-overlay')).toBeTruthy();
+    expect(screen.getByTestId('wizard-page')).toBeTruthy();
     expect(screen.getByTestId('step-item')).toBeTruthy();
   });
 

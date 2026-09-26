@@ -110,13 +110,10 @@ export default function WizardShell({ onClose, onOrderCreated }: Props) {
   if (success) {
     return (
       <div
-        className="wizard-overlay"
-        data-testid="wizard-overlay"
+        className="page page--wizard"
+        data-testid="wizard-page"
         style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 200,
-          background: 'var(--bg)',
+          height: '100%',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -144,13 +141,10 @@ export default function WizardShell({ onClose, onOrderCreated }: Props) {
   if (paying) {
     return (
       <div
-        className="wizard-overlay"
-        data-testid="wizard-overlay"
+        className="page page--wizard"
+        data-testid="wizard-page"
         style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 200,
-          background: 'var(--bg)',
+          height: '100%',
         }}
       >
         <PayAnimation onComplete={handlePayComplete} />
@@ -160,13 +154,10 @@ export default function WizardShell({ onClose, onOrderCreated }: Props) {
 
   return (
     <div
-      className="wizard-overlay"
-      data-testid="wizard-overlay"
+      className="page page--wizard"
+      data-testid="wizard-page"
       style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 200,
-        background: 'var(--bg)',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
       }}

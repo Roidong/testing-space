@@ -99,7 +99,7 @@ export interface AppState {
   lastTickAt: number;
 }
 
-export type TabId = 'home' | 'delivery' | 'profile';
+export type TabId = 'home' | 'delivery' | 'profile' | 'wizard';
 
 export const STATUS_LABELS: Record<OrderStatus, string> = {
   paid: '已下单',
